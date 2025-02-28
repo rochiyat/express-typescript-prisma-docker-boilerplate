@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import prisma from '../../prisma/client';
+import prisma from '../database/client';
 import { Project } from '../models/project.model';
 
 export class ProjectQuery {

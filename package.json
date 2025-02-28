@@ -12,7 +12,7 @@
     "build": "tsc",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write src",
-    "seed": "ts-node prisma/employee-mock.ts && ts-node prisma/projects-mock.ts",
+    "seed": "ts-node src/database/migration/employee-mock.ts && ts-node src/database/migration/project-mock.ts",
     "docker:dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
     "docker:prod": "docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build"
   },

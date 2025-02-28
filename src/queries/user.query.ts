@@ -1,4 +1,4 @@
-import prisma from '../../prisma/client';
+import prisma from '../database/client';
 import { User } from '../models/user.model';
 
 export class UserQuery {
