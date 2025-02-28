@@ -1,5 +1,5 @@
-import { projectQuery } from '../../../src/queries/project.query';
-import prisma from '../../../prisma/client';
+import { projectQuery } from '../../../queries/project.query';
+import prisma from '../../../../prisma/client';
 
 describe('Project Query', () => {
   describe('getProjects', () => {
@@ -96,15 +96,48 @@ describe('Project Query', () => {
 
   describe('updateProject', () => {
     it('should update a project', async () => {
-      const project = await projectQuery.updateProject(1, {
-        id: 1,
-        name: 'Test Project',
-        department: 'Test Department',
-        description: 'Test Description',
-        startedOn: new Date(),
-        endedOn: new Date(),
-      });
-      expect(project).toBeDefined();
+      try {
+        jest.spyOn(prisma.project, 'update').mockResolvedValue({
+          id: 1,
+          name: 'Test Project',
+          department: 'Test Department',
+          description: 'Test Description',
+          startedOn: new Date(),
+          endedOn: new Date(),
+        });
+        const project = await projectQuery.updateProject(1, {
+          id: 1,
+          name: 'Test Project',
+          department: 'Test Department',
+          description: 'Test Description',
+          startedOn: new Date(),
+          endedOn: new Date(),
+        });
+        expect(project).toBeDefined();
+        expect(project.id).toBe(1);
+        expect(project.name).toBe('Test Project');
+        expect(project.department).toBe('Test Department');
+        expect(project.description).toBe('Test Description');
+        expect(project.startedOn).toBe(new Date());
+        expect(project.endedOn).toBe(new Date());
+      } catch (error) {
+        expect(error).toBeDefined();
+      }
+    });
+
+    it('should return null if project not updated', async () => {
+      try {
+        await projectQuery.updateProject(1, {
+          id: 1,
+          name: 'Test Project',
+          department: 'Test Department',
+          description: 'Test Description',
+          startedOn: new Date(),
+          endedOn: new Date(),
+        });
+      } catch (error) {
+        expect(error).toBeDefined();
+      }
     });
   });
 

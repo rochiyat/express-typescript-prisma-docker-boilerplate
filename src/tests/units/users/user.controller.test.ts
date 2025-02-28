@@ -8,15 +8,12 @@ import {
   getUserRoles,
   getUserPhones,
   getUserAddresses,
-} from '../../../src/controllers/user.controller';
-import { projectQuery } from '../../../src/queries/project.query';
-import { userQuery } from '../../../src/queries/user.query';
-import {
-  returnSuccess,
-  returnNonSuccess,
-} from '../../../src/utils/helper.util';
+} from '../../../controllers/user.controller';
+import { projectQuery } from '../../../queries/project.query';
+import { userQuery } from '../../../queries/user.query';
+import { returnSuccess, returnNonSuccess } from '../../../utils/helper.util';
 
-jest.mock('../../../src/queries/user.query', () => ({
+jest.mock('../../../queries/user.query', () => ({
   userQuery: {
     createUser: jest.fn(),
     getUsers: jest.fn(),
@@ -30,13 +27,13 @@ jest.mock('../../../src/queries/user.query', () => ({
   },
 }));
 
-jest.mock('../../../src/queries/project.query', () => ({
+jest.mock('../../../queries/project.query', () => ({
   projectQuery: {
     getProjects: jest.fn(),
   },
 }));
 
-jest.mock('../../../src/utils/helper.util', () => ({
+jest.mock('../../../utils/helper.util', () => ({
   returnSuccess: jest.fn(),
   returnNonSuccess: jest.fn(),
 }));

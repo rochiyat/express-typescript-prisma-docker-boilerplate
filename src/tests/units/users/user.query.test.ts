@@ -1,7 +1,7 @@
 // tests for user query
 import moment from 'moment';
-import { userQuery } from '../../../src/queries/user.query';
-import prisma from '../../../prisma/client';
+import { userQuery } from '../../../queries/user.query';
+import prisma from '../../../../prisma/client';
 
 describe('userQuery', () => {
   describe('getUserById', () => {
