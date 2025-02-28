@@ -1,0 +1,409 @@
+components:
+  schemas:
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the project
+          example: 1
+        name:
+          type: string
+          description: The name of the project
+          example: "Win-Win Global Efficient Mobile Initiative"
+        department:
+          type: string
+          description: The department of the project
+          example: "Human Resources"
+        startedOn:
+          type: string
+          format: date
+          description: The date the project started
+          example: "2021-01-01"
+        endedOn:
+          type: string
+          format: date
+          description: The date the project ended
+          example: "2021-01-01"
+        description:
+          type: string
+          description: The description of the project
+          example: "This project is a global initiative to improve the efficiency of the company's mobile operations."
+    ProjectAssignment:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the project assignment
+          example: 1
+        projectId:
+          type: integer
+          description: The ID of the project
+          example: 1
+        userId:
+          type: integer
+          description: The ID of the user
+          example: 1
+
+paths:
+  /api/projects:
+    get:
+      summary: Get all projects
+      description: Get all projects from the database
+      tags: [Projects]
+      responses:
+        200:
+          description: A list of projects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "Projects fetched successfully"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+        404:
+          description: No projects found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "No projects found"
+                  data:
+                    type: string
+                    example: "null"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Internal Server Error"
+                  data:
+                    type: string
+                    example: "null"
+
+    post:
+      summary: Create a project
+      description: Create a project in the database
+      tags: [Projects]
+      responses:
+          200:
+            description: Create a project
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: "SUCCESS"
+                    message:
+                      type: string
+                      example: "Project created successfully"
+                    data:
+                      type: object
+                      properties:
+                        $ref: '#/components/schemas/Project'
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: "ERROR"
+                    message:
+                      type: string
+                      example: "Bad Request"
+                    data:
+                      type: string
+                      example: "null"
+          500:
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: "ERROR"
+                    message:
+                      type: string
+                      example: "Internal Server Error"
+                    data:
+                      type: string
+                      example: "null"
+
+  /api/projects/{id}:
+    get:
+      summary: Get a project by ID
+      description: Get a project by ID from the database
+      tags: [Projects]
+      responses:
+        200:
+          description: A project
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "Project fetched successfully"
+        404:
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Project not found"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Internal Server Error"
+
+    put:
+      summary: Update a project by ID
+      description: Update a project by ID in the database
+      tags: [Projects]
+      responses:
+        200:
+          description: Project updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "Project updated successfully"
+                  data:
+                    type: object
+                    properties:
+                      $ref: '#/components/schemas/Project'
+        404:
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Project not found"
+                  data:
+                    type: string
+                    example: "null"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Internal Server Error"
+                  data:
+                    type: string
+                    example: "null"
+
+    delete:
+      summary: Delete a project by ID
+      description: Delete a project by ID in the database
+      tags: [Projects]
+      responses:
+        200:
+          description: Project deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "Project deleted successfully"
+                  data:
+                    type: string
+                    example: "null"
+        404:
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Project not found"
+                  data:
+                    type: string
+                    example: "null"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Internal Server Error"
+                  data:
+                    type: string
+                    example: "null"
+
+  /api/projects/{id}/assignments:
+    get:
+      summary: Get all assignments for a project
+      description: Get all assignments for a project from the database
+      tags: [Projects]
+      responses:
+        200:
+          description: A list of assignments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "Assignments fetched successfully"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProjectAssignment'
+        404:
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Project not found"
+                  data:
+                    type: string
+                    example: "null"
+
+  /api/projects/{id}/users:
+    get:
+      summary: Get all users for a project
+      description: Get all users for a project from the database
+      tags: [Projects]
+      responses:
+        200:
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "Users fetched successfully"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        404:
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Project not found"
+                  data:
+                    type: string
+                    example: "null"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Internal Server Error"
+                  data:
+                    type: string
+                    example: "null"

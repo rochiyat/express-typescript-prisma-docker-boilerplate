@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int     @id @default(autoincrement())
+  username     String  @unique
+  password     String
+  firstName    String
+  lastName     String
+  ssn          String  @unique
+  dob          DateTime
+  hiredOn      DateTime
+  terminatedOn DateTime?
+  email        String  @unique
+  department   String
+  gender       String?
+  portrait     String?
+  thumbnail    String?
+  addresses    UserAddress[]
+  phones       UserPhone[]
+  roles        UserRole[]
+  projects     ProjectAssignment[]
+}
+
+model UserAddress {
+  id      Int    @id @default(autoincrement())
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int
+  street  String
+  city    String
+  state   String
+  zip     String
+}
+
+model UserPhone {
+  id      Int    @id @default(autoincrement())
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int
+  type    String
+  number  String
+}
+
+model UserRole {
+  id      Int    @id @default(autoincrement())
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int
+  role    String
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  department  String
+  startedOn   DateTime
+  endedOn     DateTime?
+  description String?
+  assignments ProjectAssignment[]
+}
+
+model ProjectAssignment {
+  id        Int    @id @default(autoincrement())
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+}

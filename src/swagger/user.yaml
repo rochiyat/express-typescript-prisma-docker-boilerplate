@@ -1,0 +1,462 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the user
+          example: 1
+        username:
+          type: string
+          description: The username of the user
+          example: "john_doe"
+        firstName:
+          type: string
+          description: The first name of the user
+          example: "John"
+        lastName:
+          type: string
+          description: The last name of the user
+          example: "Doe"
+        ssn:
+          type: string
+          description: The social security number of the user
+          example: "123-45-6789"
+        dob:
+          type: string
+          format: date
+          description: The date of birth of the user
+          example: "1990-01-01"
+        hiredOn:
+          type: string
+          format: date
+          description: The date the user was hired
+          example: "2021-01-01"
+        terminatedOn:
+          type: string
+          format: date
+          description: The date the user was terminated
+          example: "2021-01-01"
+        email:
+          type: string
+          description: The email of the user
+          example: "user@example.com"
+        department:
+          type: string
+          description: The department of the user
+          example: "Sales"
+        gender:
+          type: string
+          description: The gender of the user
+          example: "Male"
+        portrait:
+          type: string
+          description: The portrait of the user
+          example: "https://example.com/portrait.jpg"
+        thumbnail:
+          type: string
+          description: The thumbnail of the user
+          example: "https://example.com/thumbnail.jpg"
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the project
+          example: 1
+        name:
+          type: string
+          description: The name of the project
+          example: "Win-Win Global Efficient Mobile Initiative"
+        department:
+          type: string
+          description: The department of the project
+          example: "Human Resources"
+        startedOn:
+          type: string
+          format: date
+          description: The date the project started
+          example: "2021-01-01"
+        endedOn:
+          type: string
+          format: date
+          description: The date the project ended
+          example: "2021-01-01"
+        description:
+          type: string
+          description: The description of the project
+          example: "This project is a global initiative to improve the efficiency of the company's mobile operations."
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the role
+          example: 1
+        userId:
+          type: integer
+          description: The ID of the user
+          example: 1
+        role:
+          type: string
+          description: The role of the user
+          example: employee
+    Phone:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the phone
+          example: 1
+        userId:
+          type: integer
+          description: The ID of the user
+          example: 1
+        type:
+          type: string
+          description: The type of the phone
+          example: "Mobile"
+        number:
+          type: string
+          description: The phone number of the user
+          example: "123-456-7890"
+paths:
+  /api/users:
+    get:
+      summary: Get all users
+      description: Get all users from the database
+      tags: [Users]
+      responses:
+        200:
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        404:
+          description: Users not found
+
+    post:
+      summary: Create a user
+      description: Create a user in the database
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: A user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /api/users/{id}:
+    get:
+      summary: Get a user by ID
+      description: Get a user by ID from the database
+      tags: [Users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: number
+          description: The ID of the user to get
+      responses:
+        200:
+          description: A user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+
+    put:
+      summary: Update a user
+      description: Update a user in the database
+      tags: [Users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: number
+          description: The ID of the user to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: A user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+
+    delete:
+      summary: Delete a user
+      description: Delete a user from the database
+      tags: [Users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: number
+          description: The ID of the user to delete
+      responses:
+        200:
+          description: A user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/User'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+
+  /api/users/{id}/projects:
+    get:
+      summary: Get a user's projects
+      description: Get a user's projects from the database
+      tags: [Users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: number
+          description: The ID of the user to get projects for
+      responses:
+        200:
+          description: A list of projects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "OK"
+                  message:
+                    type: string
+                    example: "Success"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+        404:
+          description: User has no projects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "User has no projects"
+                  data:
+                    type: string
+                    example: "null"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Internal Server Error"
+                  data:
+                    type: string
+                    example: "null"
+
+  /api/users/{id}/roles:
+    get:
+      summary: Get a user's roles
+      description: Get a user's roles from the database
+      tags: [Users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: number
+          description: The ID of the user to get roles for
+      responses:
+        200:
+          description: A list of roles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "OK"
+                  message:
+                    type: string
+                    example: "Success"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Role'
+        404:
+          description: User has no roles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "User has no roles"
+                  data:
+                    type: string
+                    example: "null"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Internal Server Error"
+                  data:
+                    type: string
+                    example: "null"
+
+  /api/users/{id}/phones:
+    get:
+      summary: Get a user's phones
+      description: Get a user's phones from the database
+      tags: [Users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: number
+          description: The ID of the user to get phones for
+      responses:
+        200:
+          description: A list of phones
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "OK"
+                  message:
+                    type: string
+                    example: "Success"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Phone'
+        404:
+          description: User has no phones
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "User has no phones"
+                  data:
+                    type: string
+                    example: "null"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Internal Server Error"
+                  data:
+                    type: string
+                    example: "null"
