@@ -4,8 +4,8 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.prod
-    container_name: express_app
+      dockerfile: Dockerfile.dev
+    container_name: express_app_dev
     ports:
       - "3000:3000"
     environment:
