@@ -15,7 +15,7 @@ app.use('/api', router);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log(`API Documentation: http://localhost:${PORT}/api-docs`);
+  console.log(`API Documentation: http://localhost:${PORT}/swagger`);
 });
 
 export default app;
